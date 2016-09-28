@@ -14,7 +14,7 @@ var zelenaKocka = async(function () {
     parsedHTML('#dnesni-menu br').map(function () {
         var name = this.nextSibling.nodeValue;
 
-        if (name) {
+        if (name && name.indexOf("cena ,- Kč") < 0) {
             res.push({
                 "name": name
             });
