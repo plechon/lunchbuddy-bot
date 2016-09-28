@@ -3,18 +3,26 @@ var fs = require('fs');
 var config = JSON.parse(fs.readFileSync('config.json'));
 var zomato = require('./providers/zomato.js');
 var custom = require('./providers/custom.js');
-var ordr = require('./providers/ordr.js');
 
-var providers = [zomato, custom, ordr];
+var providers = [zomato, custom];
 
 var settings = {
     token: config.token,
-    name: config.name,
+    name: config.name
 };
 var bot = new Bot(settings);
 
+function isEmptyOrSpaces(str) {
+    return str === null || str.match(/^ *$/) !== null;
+}
+
 function formatLine(record) {
-    return record.name.replace(/(\r\n|\n|\r)/gm, "").trim() + " " + record.price + ",- \r\n\r\n";
+    var line = record.name.replace(/(\r\n|\n|\r)/gm, "").trim();
+    if (!isEmptyOrSpaces(record.price)) {
+        line += " | " + record.price;
+    }
+    line += "\r\n\r\n";
+    return line;
 }
 
 function sendResponse(id, data, title) {
