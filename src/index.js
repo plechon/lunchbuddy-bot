@@ -13,11 +13,14 @@ var settings = {
 var bot = new Bot(settings);
 
 function isEmptyOrSpaces(str) {
-    return str === null || str.match(/^ *$/) !== null;
+    return str === null || str === undefined || str.match(/^ *$/) !== null;
 }
 
 function formatLine(record) {
-    var line = record.name.replace(/(\r\n|\n|\r)/gm, "").trim();
+    var line = "";
+    if (!isEmptyOrSpaces(record.name)) {
+        line += record.name.replace(/(\r\n|\n|\r)/gm, "").trim();
+    }
     if (!isEmptyOrSpaces(record.price)) {
         line += " | " + record.price;
     }
@@ -45,7 +48,7 @@ function process(msg, id) {
     console.log('received: ' + msg);
 
     switch (msg) {
-        case "help":
+        case "help-menu":
             var restaurants = "";
 
             providers.forEach(function (provider) {
@@ -57,7 +60,7 @@ function process(msg, id) {
             bot.postMessage(id, "I know" + restaurants.substring(0, restaurants.length - 1) + ".");
             break;
 
-        case "about":
+        case "about-menu":
             bot.postMessage(id, "Lunchbuddy bot by *Igor Kulman*");
             break;
 

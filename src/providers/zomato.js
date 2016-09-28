@@ -5,7 +5,7 @@ var async = require('asyncawait/async');
 var await = require('asyncawait/await');
 var request = require('request-promise');
 
-var get = async(function (apiKey, id) {
+var get = (function (apiKey, id) {
 	var data = await(request.get({
         url: "https://developers.zomato.com/api/v2.1/dailymenu?res_id=" + id,
 		headers: {
@@ -15,8 +15,7 @@ var get = async(function (apiKey, id) {
 
 	var j = JSON.parse(data);
 	if (j.daily_menus.length == 0) {
-		callback([]);
-		return;
+		return [];
 	}
 
 	var dishes = j.daily_menus[0].daily_menu.dishes;
@@ -41,13 +40,13 @@ module.exports = {
 			if (rest[r].keyword === restaurant) {
 				return true;
 			}
-		};
+		}
 		return false;
 	},
 
 	restaurants: function () {
 		var rest = restaurants.restaurants;
-		var resp = []
+		var resp = [];
 		for (var restaurant in rest) {
 			resp.push(rest[restaurant].keyword)
 		}
@@ -60,7 +59,7 @@ module.exports = {
 			if (rest[r].keyword == restaurant) {
 				return await(get(config.zomato_key, rest[r].id));
 			}
-		};
+		}
 	}),
 
 	name: function (restaurant) {
@@ -69,7 +68,7 @@ module.exports = {
 			if (rest[r].keyword == restaurant) {
 				return rest[r].name;
 			}
-		};
+		}
 		return "";
 	}
 };
