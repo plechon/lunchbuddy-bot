@@ -53,9 +53,20 @@ function process(msg, id) {
             bot.postMessage(id, "Lunchbuddy bot by *Igor Kulman*");
             break;
 
-        default:
-            var handler = false;
+        case "moro-menu":
+            providers.forEach(function (provider) {
+                provider.restaurants().forEach(function (restaurant) {
+                    if (provider.handles(restaurant)) {
 
+                        provider.get(restaurant).then(function (data) {
+                            sendResponse(id, data, provider.name(restaurant));
+                        });
+                    }
+                })
+            });
+            break;
+
+        default:
             providers.forEach(function (provider) {
                 if (provider.handles(msg)) {
                     handled = true;
