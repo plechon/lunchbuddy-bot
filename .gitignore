@@ -33,3 +33,11 @@ node_modules
 .node_repl_history
 /.vscode
 /typings
+
+.classpath
+.project
+.settings
+.idea/
+*.iml
+.DS_Store
+
