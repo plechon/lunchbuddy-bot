@@ -33,11 +33,16 @@ var lightOfIndia = async(function () {
 
     var parsedHTML = $.load(data);
 
-    parsedHTML('strong').map(function () {
-        var name = $(this).text();
-        if (name && name.startsWith("Týdenní menu pro dnešní den")) {
+    parsedHTML('p > br').map(function () {
+        var name;
+        if (this.nextSibling) {
+            name = this.nextSibling.nodeValue;
+        } else {
+            name = $(this).nextUntil("p").text();
+        }
+        if (name && name.match("^.*Kč.*")) {
             res.push({
-                "name": $(this).parent().text()
+                "name": name
             });
         }
     });
