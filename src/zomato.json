@@ -1,7 +1,19 @@
 {
   "restaurants": [{
-    "id": 16507044,
-    "name": "GURMET",
-    "keyword": "gurmet"
+    "id": 16506040,
+    "name": "Šelepka",
+    "keyword": "selepka-menu"
+  },{
+    "id": 16506537,
+    "name": "Everest",
+    "keyword": "everest-menu"
+  },{
+    "id": 16507390,
+    "name": "Sono",
+    "keyword": "sono-menu"
+  },{
+    "id": 16505458,
+    "name": "U dřeváka",
+    "keyword": "drevak-menu"
   }]
 }
