@@ -62,31 +62,31 @@ var seven = async(function () {
 
 module.exports = {
     handles: function (restaurant) {
-        return restaurant == "kocka-menu" || restaurant == "light-menu" || restaurant == "seven";
+        return restaurant == "menu-kocka" || restaurant == "menu-light" || restaurant == "menu-seven";
     },
 
     restaurants: function () {
-        return ["kocka-menu", "light-menu", "seven"]
+        return ["menu-kocka", "menu-light", "menu-seven"]
     },
 
     get: async(function (restaurant) {
         switch (restaurant) {
-            case "kocka-menu":
+            case "menu-kocka":
                 return await(zelenaKocka());
-            case "light-menu":
+            case "menu-light":
                 return await(lightOfIndia());
-            case "seven":
+            case "menu-seven":
                 return await(seven());
         }
     }),
 
     name: function (restaurant) {
         switch (restaurant) {
-            case "kocka-menu":
+            case "menu-kocka":
                 return "Zelená kočka";
-            case "light-menu":
+            case "menu-light":
                 return "Light of India";
-            case "seven":
+            case "menu-seven":
                 return "Seven";
         }
     }

@@ -2,14 +2,14 @@
   "restaurants": [{
     "id": 16506040,
     "name": "Šelepka",
-    "keyword": "selepka-menu"
+    "keyword": "menu-selepka"
   },{
     "id": 16506537,
     "name": "Everest",
-    "keyword": "everest-menu"
+    "keyword": "menu-everest"
   },{
     "id": 16507390,
     "name": "Sono",
-    "keyword": "sono-menu"
+    "keyword": "menu-sono"
   }]
 }

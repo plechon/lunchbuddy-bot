@@ -30,7 +30,6 @@ function formatLine(record) {
 }
 
 function sendResponse(id, data, title) {
-
     var res = "\r\n\r\n*" + title + "*\r\n\r\n";
 
     if (data.length == 0) {
@@ -46,10 +45,8 @@ function sendResponse(id, data, title) {
 }
 
 function process(msg, id) {
-    // console.log('received: ' + msg);
-
     switch (msg) {
-        case "help-menu":
+        case "menu-help":
             var restaurants = "";
 
             providers.forEach(function (provider) {
@@ -61,11 +58,11 @@ function process(msg, id) {
             bot.postMessage(id, "I know" + restaurants.substring(0, restaurants.length - 1) + ".");
             break;
 
-        case "about-menu":
+        case "menu-about":
             bot.postMessage(id, "Lunchbuddy bot by *Igor Kulman*");
             break;
 
-        case "moro-menu":
+        case "menu-all":
             providers.forEach(function (provider) {
                 provider.restaurants().forEach(function (restaurant) {
                     if (provider.handles(restaurant)) {
@@ -79,6 +76,8 @@ function process(msg, id) {
             break;
 
         default:
+            var handled = false;
+
             providers.forEach(function (provider) {
                 if (provider.handles(msg)) {
                     handled = true;
@@ -100,8 +99,9 @@ bot.on('start', function () {
     console.log("bot started");
 });
 
-schedule.scheduleJob({hour: 10, minute: 30, dayOfWeek: new schedule.Range(1, 5)}, function(){
-    process("moro-menu", "D1KD43UGJ");
+schedule.scheduleJob({hour: 8, minute: 30, dayOfWeek: new schedule.Range(1, 5)}, function(){
+    console.log("scheduled menu");
+    process("menu-all", "D1KD43UGJ");
 });
 
 bot.on('message', function (data) {
