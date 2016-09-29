@@ -3,6 +3,7 @@ var fs = require('fs');
 var config = JSON.parse(fs.readFileSync('config.json'));
 var zomato = require('./providers/zomato.js');
 var custom = require('./providers/custom.js');
+var schedule = require('node-schedule');
 
 var providers = [zomato, custom];
 
@@ -97,6 +98,10 @@ function process(msg, id) {
 
 bot.on('start', function () {
     console.log("bot started");
+});
+
+schedule.scheduleJob({hour: 10, minute: 30, dayOfWeek: new schedule.Range(1, 5)}, function(){
+    process("moro-menu", "D1KD43UGJ");
 });
 
 bot.on('message', function (data) {
