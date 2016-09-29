@@ -47,7 +47,7 @@ function sendResponse(id, data, title) {
 function process(msg, id) {
     switch (msg) {
         case "menu-help":
-            var restaurants = "";
+            var restaurants = " *menu-all*,";
 
             providers.forEach(function (provider) {
                 provider.restaurants().forEach(function (restaurant) {
@@ -59,7 +59,7 @@ function process(msg, id) {
             break;
 
         case "menu-about":
-            bot.postMessage(id, "Lunchbuddy bot by *Igor Kulman*");
+            bot.postMessage(id, "Lunchbuddy bot by *Igor Kulman*, *Vojtěch Šobáň*");
             break;
 
         case "menu-all":
@@ -76,43 +76,27 @@ function process(msg, id) {
             break;
 
         default:
-            var handled = false;
-
             providers.forEach(function (provider) {
                 if (provider.handles(msg)) {
-                    handled = true;
-
                     provider.get(msg).then(function (data) {
                         sendResponse(id, data, provider.name(msg));
                     });
                 }
             });
-
-            if (!handled) {
-                bot.postMessage(id, "Sorry, I do not know " + msg + ". Use *help* to see what I know.");
-            }
             break;
     }
 }
 
 bot.on('start', function () {
-    console.log("bot started");
-});
-
-schedule.scheduleJob({hour: 8, minute: 30, dayOfWeek: new schedule.Range(1, 5)}, function(){
-    console.log("scheduled menu");
-    process("menu-all", "D1KD43UGJ");
+    console.log("MoroLunchBuddy started.");
 });
 
 bot.on('message', function (data) {
-    // all ingoing events https://api.slack.com/rtm 
-    if (data.type == "message" && data.text.startsWith('<@' + bot.self.id + '>:')) {
-        var msg = data.text.replace('<@' + bot.self.id + '>: ', '');
-        process(msg, data.channel);
-    }
+    // all ingoing events https://api.slack.com/rtm
+    process(data.text, data.channel);
+});
 
-    if (data.type == "message" && data.channel.startsWith('D') && !data.bot_id) {
-        process(data.text, data.channel);
-    }
-
+schedule.scheduleJob({hour: 8, minute: 30, dayOfWeek: new schedule.Range(1, 5)}, function(){
+    console.log("All menus was sent to chanel brno-obed.");
+    process("menu-all", "C2E2Q8LSZ");
 });
