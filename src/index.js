@@ -45,7 +45,7 @@ function sendResponse(id, data, title) {
 }
 
 function process(msg, id) {
-    console.log('received: ' + msg);
+    // console.log('received: ' + msg);
 
     switch (msg) {
         case "help-menu":
