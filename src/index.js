@@ -11,7 +11,10 @@ var settings = {
     token: config.token,
     name: config.name
 };
+
 var bot = new Bot(settings);
+
+var lunchChannelId = "C2E2Q8LSZ";
 
 function isEmptyOrSpaces(str) {
     return str === null || str === undefined || str.match(/^ *$/) !== null;
@@ -93,12 +96,26 @@ bot.on('start', function () {
 
 bot.on('message', function (data) {
     // all ingoing events https://api.slack.com/rtm
-    if (data.type == "message" && data.channel.startsWith('C2E2Q8LSZ')) {
+    if (data.type == "message" && data.channel.startsWith(lunchChannelId)) {
         process(data.text, data.channel);
     }
 });
 
-schedule.scheduleJob({hour: 8, minute: 30, dayOfWeek: new schedule.Range(1, 5)}, function(){
+/**
+ * Starts on working day at 8:30 UTC.
+ */
+schedule.scheduleJob({hour: 8, minute: 30, dayOfWeek: new schedule.Range(1, 5)}, function() {
     console.log("All menus was sent to chanel brno-obed.");
-    process("menu-all", "C2E2Q8LSZ");
+    var date = new Date();
+    var greeting;
+    if (date.getDay() == 5) {
+        // english friday
+        greeting = "Hi Brňáci, lunch time is coming so I'm sending daily menus. Enjoy your meal!";
+    } else {
+        // normal working day
+        greeting = "Zdar Brňáci, čas obědu je na spadnutí, tak posílám dnešní obědová menu. Dobrou chuť!";
+    }
+
+    bot.postMessage(lunchChannelId, greeting);
+    process("menu-all", lunchChannelId);
 });
