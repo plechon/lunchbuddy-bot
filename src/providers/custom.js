@@ -50,30 +50,44 @@ var lightOfIndia = async(function () {
     return res;
 });
 
+var seven = async(function () {
+    var res = [];
+
+    res.push({
+        "name": "https://www.facebook.com/7FoodTrio/"
+    });
+
+    return res;
+});
+
 module.exports = {
     handles: function (restaurant) {
-        return restaurant == "zelenaKocka" || restaurant == "lightOfIndia";
+        return restaurant == "kocka-menu" || restaurant == "light-menu" || restaurant == "seven";
     },
 
     restaurants: function () {
-        return ["zelenaKocka", "lightOfIndia"]
+        return ["kocka-menu", "light-menu", "seven"]
     },
 
     get: async(function (restaurant) {
         switch (restaurant) {
-            case "zelenaKocka":
+            case "kocka-menu":
                 return await(zelenaKocka());
-            case "lightOfIndia":
+            case "light-menu":
                 return await(lightOfIndia());
+            case "seven":
+                return await(seven());
         }
     }),
 
     name: function (restaurant) {
         switch (restaurant) {
-            case "zelenaKocka":
+            case "kocka-menu":
                 return "Zelená kočka";
-            case "lightOfIndia":
+            case "light-menu":
                 return "Light of India";
+            case "seven":
+                return "Seven";
         }
     }
 };
