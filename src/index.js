@@ -93,7 +93,9 @@ bot.on('start', function () {
 
 bot.on('message', function (data) {
     // all ingoing events https://api.slack.com/rtm
-    process(data.text, data.channel);
+    if (data.type == "message" && data.channel.startsWith('C2E2Q8LSZ')) {
+        process(data.text, data.channel);
+    }
 });
 
 schedule.scheduleJob({hour: 8, minute: 30, dayOfWeek: new schedule.Range(1, 5)}, function(){
