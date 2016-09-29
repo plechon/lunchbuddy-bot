@@ -110,12 +110,13 @@ schedule.scheduleJob({hour: 8, minute: 30, dayOfWeek: new schedule.Range(1, 5)},
     var greeting;
     if (date.getDay() == 5) {
         // english friday
-        greeting = "Hi Brňáci, lunch time is coming so I'm sending daily menus. Enjoy your meal!";
+        greeting = "*Hi Brňáci, lunch time is coming so I'm sending daily menus. Enjoy your meal!*";
     } else {
         // normal working day
-        greeting = "Zdar Brňáci, čas obědu je na spadnutí, tak posílám dnešní obědová menu. Dobrou chuť!";
+        greeting = "*Zdar Brňáci, čas obědu je na spadnutí, tak posílám dnešní obědová menu. Dobrou chuť!*";
     }
 
-    bot.postMessage(lunchChannelId, greeting);
-    process("menu-all", lunchChannelId);
+    bot.postMessage(lunchChannelId, greeting).then(function() {
+        process("menu-all", lunchChannelId);
+    });
 });
