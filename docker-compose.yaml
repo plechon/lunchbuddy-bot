@@ -1,0 +1,4 @@
+moro-lunch-buddy:
+  image: morodocker/private:moro-lunch-buddy
+  ports:
+      - 8099:8080
