@@ -60,13 +60,33 @@ var seven = async(function () {
     return res;
 });
 
+var lokofu = async(function () {
+    var res = [];
+
+    res.push({
+        "name": "https://www.zomato.com/cs/brno/lokofu-veveří-brno-střed/menu"
+    });
+
+    return res;
+});
+
+var pagoda = async(function () {
+    var res = [];
+
+    res.push({
+        "name": "Gyros && (nudle || hranolky || rýže)"
+    });
+
+    return res;
+});
+
 module.exports = {
     handles: function (restaurant) {
-        return restaurant == "menu-kocka" || restaurant == "menu-light" || restaurant == "menu-seven";
+        return restaurant == "menu-kocka" || restaurant == "menu-light" || restaurant == "menu-seven" || restaurant == "menu-lokofu" || restaurant == "menu-pagoda";
     },
 
     restaurants: function () {
-        return ["menu-kocka", "menu-light", "menu-seven"]
+        return ["menu-kocka", "menu-light", "menu-seven", "menu-lokofu", "menu-pagoda"]
     },
 
     get: async(function (restaurant) {
@@ -77,6 +97,10 @@ module.exports = {
                 return await(lightOfIndia());
             case "menu-seven":
                 return await(seven());
+            case "menu-lokofu":
+                return await(lokofu());
+            case "menu-pagoda":
+                return await(pagoda());
         }
     }),
 
@@ -88,6 +112,10 @@ module.exports = {
                 return "Light of India";
             case "menu-seven":
                 return "Seven";
+            case "menu-lokofu":
+                return "Lokofu";
+            case "menu-pagoda":
+                return "Asijské bistro Pagoda";
         }
     }
 };
