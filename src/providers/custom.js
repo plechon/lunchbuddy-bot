@@ -50,6 +50,29 @@ var lightOfIndia = async(function () {
     return res;
 });
 
+var madanMohan = async(function () {
+    var data = await(request.get({
+        url: "http://www.madanmohan.cz/menu/"
+    }));
+
+    var res = [];
+
+    res.push({
+        "name": "Rozvoz zdarma, menu 89 Kč, objednávka nejpozději do 9:15 (http://www.madanmohan.cz/objednat-obed)"
+    });
+
+    var parsedHTML = $.load(data);
+
+    parsedHTML("div.today").parent().parent().find("li").map(function () {
+        var name = $(this).text();
+        res.push({
+            "name": name
+        });
+    });
+
+    return res;
+});
+
 var seven = async(function () {
     var res = [];
 
@@ -82,11 +105,12 @@ var pagoda = async(function () {
 
 module.exports = {
     handles: function (restaurant) {
-        return restaurant == "menu-kocka" || restaurant == "menu-light" || restaurant == "menu-seven" || restaurant == "menu-lokofu" || restaurant == "menu-pagoda";
+        return restaurant == "menu-kocka" || restaurant == "menu-light" || restaurant == "menu-seven" || restaurant == "menu-lokofu"
+            || restaurant == "menu-pagoda" || restaurant == "menu-madan";
     },
 
     restaurants: function () {
-        return ["menu-kocka", "menu-light", "menu-seven", "menu-lokofu", "menu-pagoda"]
+        return ["menu-kocka", "menu-light", "menu-seven", "menu-lokofu", "menu-pagoda", "menu-madan"]
     },
 
     get: async(function (restaurant) {
@@ -101,6 +125,8 @@ module.exports = {
                 return await(lokofu());
             case "menu-pagoda":
                 return await(pagoda());
+            case "menu-madan":
+                return await(madanMohan());
         }
     }),
 
@@ -116,6 +142,8 @@ module.exports = {
                 return "Lokofu";
             case "menu-pagoda":
                 return "Asijské bistro Pagoda";
+            case "menu-madan":
+                return "Madan Móhan";
         }
     }
 };

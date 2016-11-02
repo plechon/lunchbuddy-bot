@@ -68,8 +68,7 @@ function process(msg, id) {
         case "menu-all":
             providers.forEach(function (provider) {
                 provider.restaurants().forEach(function (restaurant) {
-                    if (provider.handles(restaurant)) {
-
+                    if (provider.handles(restaurant) && restaurant !== "menu-madan") {
                         provider.get(restaurant).then(function (data) {
                             sendResponse(id, data, provider.name(restaurant));
                         });
@@ -119,4 +118,12 @@ schedule.scheduleJob({hour: 9, minute: 30, dayOfWeek: new schedule.Range(1, 5)},
     bot.postMessage(lunchChannelId, greeting).then(function() {
         process("menu-all", lunchChannelId);
     });
+});
+
+/**
+ * Starts on working day at 7:55 UTC.
+ */
+schedule.scheduleJob({hour: 7, minute: 55, dayOfWeek: new schedule.Range(1, 5)}, function() {
+    console.log("Madan Mohan menu was sent to chanel brno-obed.");
+    process("menu-madan", lunchChannelId);
 });
