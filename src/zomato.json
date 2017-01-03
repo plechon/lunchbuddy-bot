@@ -1,15 +1,35 @@
 {
   "restaurants": [{
-    "id": 16506040,
-    "name": "Šelepka",
-    "keyword": "menu-selepka"
+    "id": 18126190,
+    "name": "Suzie's Steak Pub",
+    "keyword": "menu-suzies"
   },{
     "id": 16506537,
     "name": "Everest",
     "keyword": "menu-everest"
   },{
-    "id": 16507390,
-    "name": "Sono",
-    "keyword": "menu-sono"
+    "id": 18020949,
+    "name": "Pivní dveře",
+    "keyword": "menu-pivnidvere"
+  },{
+    "id": 16507156,
+    "name": "Pizza Zakki",
+    "keyword": "menu-pizzazakki"
+  },{
+    "id": 18335377,
+    "name": "Sborovna",
+    "keyword": "menu-sborovna"
+  },{
+    "id": 16506895,
+    "name": "U Semináru",
+    "keyword": "menu-useminaru"
+  },{
+    "id": 16507572,
+    "name": "Fresh Freaks Bistro",
+    "keyword": "menu-freshfreaks"
+  },{
+    "id": 16506673,
+    "name": "Vegalite",
+    "keyword": "menu-vegalite"
   }]
 }

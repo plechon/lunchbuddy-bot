@@ -3,52 +3,52 @@ var async = require('asyncawait/async');
 var await = require('asyncawait/await');
 var request = require('request-promise');
 
-var zelenaKocka = async(function () {
-    var data = await(request.get({
-        url: "http://www.zelenakocka.cz"
-    }));
-
-    var res = [];
-
-    var parsedHTML = $.load(data);
-    parsedHTML('#dnesni-menu br').map(function () {
-        var name = this.nextSibling.nodeValue;
-
-        if (name && name.indexOf("cena ,- Kč") < 0) {
-            res.push({
-                "name": name
-            });
-        }
-    });
-
-    return res;
-});
-
-var lightOfIndia = async(function () {
-    var data = await(request.get({
-        url: "http://www.lightofindia.cz/"
-    }));
-
-    var res = [];
-
-    var parsedHTML = $.load(data);
-
-    parsedHTML('p > br').map(function () {
-        var name;
-        if (this.nextSibling) {
-            name = this.nextSibling.nodeValue;
-        } else {
-            name = $(this).nextUntil("p").text();
-        }
-        if (name && name.match("^.*Kč.*")) {
-            res.push({
-                "name": name
-            });
-        }
-    });
-
-    return res;
-});
+// var zelenaKocka = async(function () {
+//     var data = await(request.get({
+//         url: "http://www.zelenakocka.cz"
+//     }));
+//
+//     var res = [];
+//
+//     var parsedHTML = $.load(data);
+//     parsedHTML('#dnesni-menu br').map(function () {
+//         var name = this.nextSibling.nodeValue;
+//
+//         if (name && name.indexOf("cena ,- Kč") < 0) {
+//             res.push({
+//                 "name": name
+//             });
+//         }
+//     });
+//
+//     return res;
+// });
+//
+// var lightOfIndia = async(function () {
+//     var data = await(request.get({
+//         url: "http://www.lightofindia.cz/"
+//     }));
+//
+//     var res = [];
+//
+//     var parsedHTML = $.load(data);
+//
+//     parsedHTML('p > br').map(function () {
+//         var name;
+//         if (this.nextSibling) {
+//             name = this.nextSibling.nodeValue;
+//         } else {
+//             name = $(this).nextUntil("p").text();
+//         }
+//         if (name && name.match("^.*Kč.*")) {
+//             res.push({
+//                 "name": name
+//             });
+//         }
+//     });
+//
+//     return res;
+// });
 
 var madanMohan = async(function () {
     var data = await(request.get({
@@ -73,31 +73,31 @@ var madanMohan = async(function () {
     return res;
 });
 
-var seven = async(function () {
+var ohPho = async(function () {
     var res = [];
 
     res.push({
-        "name": "https://www.facebook.com/7FoodTrio/"
+        "name": "https://www.facebook.com/pg/ohphobrno/photos/?tab=album&album_id=1118477601568286"
     });
 
     return res;
 });
 
-var lokofu = async(function () {
+var podloubi = async(function () {
     var res = [];
 
     res.push({
-        "name": "https://www.zomato.com/cs/brno/lokofu-veveří-brno-střed/menu"
+        "name": "https://www.facebook.com/128155897986/photos/a.228426292986.133732.128155897986/10153352299757987/?type=3&theater"
     });
 
     return res;
 });
 
-var pagoda = async(function () {
+var likofu = async(function () {
     var res = [];
 
     res.push({
-        "name": "Gyros && (nudle || hranolky || rýže)"
+        "name": "http://www.chutnestesti.cz/jidelni-listek/"
     });
 
     return res;
@@ -105,45 +105,36 @@ var pagoda = async(function () {
 
 module.exports = {
     handles: function (restaurant) {
-        return restaurant == "menu-kocka" || restaurant == "menu-light" || restaurant == "menu-seven" || restaurant == "menu-lokofu"
-            || restaurant == "menu-pagoda" || restaurant == "menu-madan";
+        return restaurant == "menu-madan" || restaurant == "menu-ohpho" || restaurant == "menu-podloubi" || restaurant == "menu-likofu";
     },
 
     restaurants: function () {
-        return ["menu-kocka", "menu-light", "menu-seven", "menu-lokofu", "menu-pagoda", "menu-madan"]
+        return ["menu-madan", "menu-ohpho", "menu-podloubi", "menu-likofu"]
     },
 
     get: async(function (restaurant) {
         switch (restaurant) {
-            case "menu-kocka":
-                return await(zelenaKocka());
-            case "menu-light":
-                return await(lightOfIndia());
-            case "menu-seven":
-                return await(seven());
-            case "menu-lokofu":
-                return await(lokofu());
-            case "menu-pagoda":
-                return await(pagoda());
             case "menu-madan":
                 return await(madanMohan());
+            case "menu-ohpho":
+                return await(ohPho());
+            case "menu-podloubi":
+                return await(podloubi());
+            case "menu-likofu":
+                return await(likofu());
         }
     }),
 
     name: function (restaurant) {
         switch (restaurant) {
-            case "menu-kocka":
-                return "Zelená kočka";
-            case "menu-light":
-                return "Light of India";
-            case "menu-seven":
-                return "Seven";
-            case "menu-lokofu":
-                return "Lokofu";
-            case "menu-pagoda":
-                return "Asijské bistro Pagoda";
             case "menu-madan":
                 return "Madan Móhan";
+            case "menu-ohpho":
+                return "Oh Pho";
+            case "menu-podloubi":
+                return "Podloubí";
+            case "menu-likofu":
+                return "Chutné štěstí LiKoFu";
         }
     }
 };
