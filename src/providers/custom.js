@@ -49,29 +49,32 @@ var request = require('request-promise');
 //
 //     return res;
 // });
-//
-// var madanMohan = async(function () {
-//     var data = await(request.get({
-//         url: "http://www.madanmohan.cz/menu/"
-//     }));
-//
-//     var res = [];
-//
-//     res.push({
-//         "name": "Rozvoz zdarma, menu 89 Kč, objednávka nejpozději do 9:15 (http://www.madanmohan.cz/objednat-obed)"
-//     });
-//
-//     var parsedHTML = $.load(data);
-//
-//     parsedHTML("div.today").parent().parent().find("li").map(function () {
-//         var name = $(this).text();
-//         res.push({
-//             "name": name
-//         });
-//     });
-//
-//     return res;
-// });
+
+var bistroFriends = async(function () {
+    var data = await(request.get({
+        url: "http://www.bistrofriends.cz/p/menu.html"
+    }));
+
+    // get actual day word name in Czech
+    var date = new Date();
+    var dayNumber = date.getDay()
+    var dayWordArray = ["Neděle", "Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek", "Sobota"];
+    var dayWord = dayWordArray[dayNumber];
+
+    var res = [];
+    var parsedHTML = $.load(data);
+
+    parsedHTML("td.xl66").filter(function() {
+            return $(this).text() === dayWord;
+        }).parent().nextAll().slice(0, 6).map(function () {
+            var name = $(this).text();
+            res.push({
+                "name": name
+            });
+    });
+
+    return res;
+});
 
 var ohPho = async(function () {
     var res = [];
@@ -115,11 +118,11 @@ var pivniDvere = async(function () {
 
 module.exports = {
     handles: function (restaurant) {
-        return restaurant == "menu-ohpho" || restaurant == "menu-podloubi" || restaurant == "menu-vitalite" || restaurant == "menu-pivnidvere";
+        return restaurant == "menu-ohpho" || restaurant == "menu-podloubi" || restaurant == "menu-vitalite" || restaurant == "menu-pivnidvere" || restaurant == "menu-friends";
     },
 
     restaurants: function () {
-        return ["menu-ohpho", "menu-podloubi", "menu-vitalite", "menu-pivnidvere"]
+        return ["menu-ohpho", "menu-podloubi", "menu-vitalite", "menu-pivnidvere", "menu-friends"]
     },
 
     get: async(function (restaurant) {
@@ -132,6 +135,8 @@ module.exports = {
                 return await(vitalite());
             case "menu-pivnidvere":
                 return await(pivniDvere());
+            case "menu-friends":
+                return await(bistroFriends());
         }
     }),
 
@@ -145,6 +150,8 @@ module.exports = {
                 return "Vitalité";
             case "menu-pivnidvere":
                 return "Pivní dveře";
+            case "menu-friends":
+                return "Bistro Friends";
         }
     }
 };
