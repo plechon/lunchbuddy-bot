@@ -93,13 +93,33 @@ var podloubi = async(function () {
     return res;
 });
 
+var vitalite = async(function () {
+    var res = [];
+
+    res.push({
+        "name": "http://www.vitalite.cz/restaurace/"
+    });
+
+    return res;
+});
+
+var pivniDvere = async(function () {
+    var res = [];
+
+    res.push({
+        "name": "http://www.pivnidvere.cz/denni-menu/"
+    });
+
+    return res;
+});
+
 module.exports = {
     handles: function (restaurant) {
-        return restaurant == "menu-ohpho" || restaurant == "menu-podloubi" || restaurant == "menu-likofu";
+        return restaurant == "menu-ohpho" || restaurant == "menu-podloubi" || restaurant == "menu-vitalite" || restaurant == "menu-pivnidvere";
     },
 
     restaurants: function () {
-        return ["menu-ohpho", "menu-podloubi"]
+        return ["menu-ohpho", "menu-podloubi", "menu-vitalite", "menu-pivnidvere"]
     },
 
     get: async(function (restaurant) {
@@ -108,6 +128,10 @@ module.exports = {
                 return await(ohPho());
             case "menu-podloubi":
                 return await(podloubi());
+            case "menu-vitalite":
+                return await(vitalite());
+            case "menu-pivnidvere":
+                return await(pivniDvere());
         }
     }),
 
@@ -117,6 +141,10 @@ module.exports = {
                 return "Oh Pho";
             case "menu-podloubi":
                 return "Podloubí";
+            case "menu-vitalite":
+                return "Vitalité";
+            case "menu-pivnidvere":
+                return "Pivní dveře";
         }
     }
 };
