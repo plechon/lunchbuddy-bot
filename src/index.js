@@ -103,7 +103,7 @@ bot.on('message', function (data) {
 /**
  * Starts on working day at 9:30 UTC.
  */
-schedule.scheduleJob({hour: 9, minute: 30, dayOfWeek: new schedule.Range(1, 5)}, function() {
+schedule.scheduleJob({hour: 8, minute: 30, dayOfWeek: new schedule.Range(1, 5)}, function() {
     console.log("All menus was sent to chanel brno-obed.");
     var date = new Date();
     var greeting;
@@ -123,7 +123,7 @@ schedule.scheduleJob({hour: 9, minute: 30, dayOfWeek: new schedule.Range(1, 5)},
 /**
  * Starts on working day at 7:55 UTC.
  */
-schedule.scheduleJob({hour: 7, minute: 55, dayOfWeek: new schedule.Range(1, 5)}, function() {
+schedule.scheduleJob({hour: 6, minute: 55, dayOfWeek: new schedule.Range(1, 5)}, function() {
     console.log("Madan Mohan menu was sent to chanel brno-obed.");
     process("menu-madan", lunchChannelId);
 });
