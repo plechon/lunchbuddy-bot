@@ -49,29 +49,29 @@ var request = require('request-promise');
 //
 //     return res;
 // });
-
-var madanMohan = async(function () {
-    var data = await(request.get({
-        url: "http://www.madanmohan.cz/menu/"
-    }));
-
-    var res = [];
-
-    res.push({
-        "name": "Rozvoz zdarma, menu 89 Kč, objednávka nejpozději do 9:15 (http://www.madanmohan.cz/objednat-obed)"
-    });
-
-    var parsedHTML = $.load(data);
-
-    parsedHTML("div.today").parent().parent().find("li").map(function () {
-        var name = $(this).text();
-        res.push({
-            "name": name
-        });
-    });
-
-    return res;
-});
+//
+// var madanMohan = async(function () {
+//     var data = await(request.get({
+//         url: "http://www.madanmohan.cz/menu/"
+//     }));
+//
+//     var res = [];
+//
+//     res.push({
+//         "name": "Rozvoz zdarma, menu 89 Kč, objednávka nejpozději do 9:15 (http://www.madanmohan.cz/objednat-obed)"
+//     });
+//
+//     var parsedHTML = $.load(data);
+//
+//     parsedHTML("div.today").parent().parent().find("li").map(function () {
+//         var name = $(this).text();
+//         res.push({
+//             "name": name
+//         });
+//     });
+//
+//     return res;
+// });
 
 var ohPho = async(function () {
     var res = [];
@@ -105,17 +105,15 @@ var likofu = async(function () {
 
 module.exports = {
     handles: function (restaurant) {
-        return restaurant == "menu-madan" || restaurant == "menu-ohpho" || restaurant == "menu-podloubi" || restaurant == "menu-likofu";
+        return restaurant == "menu-ohpho" || restaurant == "menu-podloubi" || restaurant == "menu-likofu";
     },
 
     restaurants: function () {
-        return ["menu-madan", "menu-ohpho", "menu-podloubi", "menu-likofu"]
+        return ["menu-ohpho", "menu-podloubi", "menu-likofu"]
     },
 
     get: async(function (restaurant) {
         switch (restaurant) {
-            case "menu-madan":
-                return await(madanMohan());
             case "menu-ohpho":
                 return await(ohPho());
             case "menu-podloubi":
@@ -127,8 +125,6 @@ module.exports = {
 
     name: function (restaurant) {
         switch (restaurant) {
-            case "menu-madan":
-                return "Madan Móhan";
             case "menu-ohpho":
                 return "Oh Pho";
             case "menu-podloubi":
