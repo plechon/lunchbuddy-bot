@@ -93,23 +93,13 @@ var podloubi = async(function () {
     return res;
 });
 
-var likofu = async(function () {
-    var res = [];
-
-    res.push({
-        "name": "http://www.chutnestesti.cz/jidelni-listek/"
-    });
-
-    return res;
-});
-
 module.exports = {
     handles: function (restaurant) {
         return restaurant == "menu-ohpho" || restaurant == "menu-podloubi" || restaurant == "menu-likofu";
     },
 
     restaurants: function () {
-        return ["menu-ohpho", "menu-podloubi", "menu-likofu"]
+        return ["menu-ohpho", "menu-podloubi"]
     },
 
     get: async(function (restaurant) {
@@ -118,8 +108,6 @@ module.exports = {
                 return await(ohPho());
             case "menu-podloubi":
                 return await(podloubi());
-            case "menu-likofu":
-                return await(likofu());
         }
     }),
 
@@ -129,8 +117,6 @@ module.exports = {
                 return "Oh Pho";
             case "menu-podloubi":
                 return "Podloubí";
-            case "menu-likofu":
-                return "Chutné štěstí LiKoFu";
         }
     }
 };
