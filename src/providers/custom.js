@@ -23,32 +23,38 @@ var request = require('request-promise');
 //
 //     return res;
 // });
-//
-// var lightOfIndia = async(function () {
-//     var data = await(request.get({
-//         url: "http://www.lightofindia.cz/"
-//     }));
-//
-//     var res = [];
-//
-//     var parsedHTML = $.load(data);
-//
-//     parsedHTML('p > br').map(function () {
-//         var name;
-//         if (this.nextSibling) {
-//             name = this.nextSibling.nodeValue;
-//         } else {
-//             name = $(this).nextUntil("p").text();
-//         }
-//         if (name && name.match("^.*Kč.*")) {
-//             res.push({
-//                 "name": name
-//             });
-//         }
-//     });
-//
-//     return res;
-// });
+
+var siamThai = async(function () {
+    var data = await(request.get({
+        url: "http://www.siamthai.cz/tydenni-menu/"
+    }));
+
+    // get actual day word name in Czech
+    var date = new Date();
+    var dayNumber = date.getDay()
+    var dayWordArray = ["Neděle", "Pondělí", "Úterý", "Středa", "Čtvrtek", "Pátek", "Sobota"];
+    var dayWord = dayWordArray[dayNumber];
+
+    var res = [];
+    var parsedHTML = $.load(data);
+
+    parsedHTML("h2:contains('" + dayWord + "')").parent().first().children().map(function () {
+        var name = $(this).text().replace(/\s\s+/g, ' ').trim();
+        if (name && name.length > 0) {
+            if ((name.indexOf("Menu 1") === 0)
+                || (name.indexOf("Menu 2") === 0)
+                || (name.indexOf("Dezert") === 0)
+                || (name.indexOf("Polévka") === 0)) {
+                name = name + " " + $(this).nextAll().slice(0,3).text().trim();
+                res.push({
+                    "name": name
+                });
+            }
+        }
+    });
+
+    return res;
+});
 
 var bistroFriends = async(function () {
     var data = await(request.get({
@@ -118,11 +124,12 @@ var pivniDvere = async(function () {
 
 module.exports = {
     handles: function (restaurant) {
-        return restaurant == "menu-ohpho" || restaurant == "menu-podloubi" || restaurant == "menu-vitalite" || restaurant == "menu-pivnidvere" || restaurant == "menu-friends";
+        return restaurant == "menu-ohpho" || restaurant == "menu-podloubi" || restaurant == "menu-vitalite" || restaurant == "menu-pivnidvere"
+            || restaurant == "menu-friends" || restaurant == "menu-siamthai";
     },
 
     restaurants: function () {
-        return ["menu-ohpho", "menu-podloubi", "menu-vitalite", "menu-pivnidvere", "menu-friends"]
+        return ["menu-ohpho", "menu-podloubi", "menu-vitalite", "menu-pivnidvere", "menu-friends", "menu-siamthai"]
     },
 
     get: async(function (restaurant) {
@@ -137,6 +144,8 @@ module.exports = {
                 return await(pivniDvere());
             case "menu-friends":
                 return await(bistroFriends());
+            case "menu-siamthai":
+                return await(siamThai());
         }
     }),
 
@@ -152,6 +161,8 @@ module.exports = {
                 return "Pivní dveře";
             case "menu-friends":
                 return "Bistro Friends";
+            case "menu-siamthai":
+                return "Siam Thai";
         }
     }
 };
