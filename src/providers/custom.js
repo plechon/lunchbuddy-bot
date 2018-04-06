@@ -122,14 +122,24 @@ var pivniDvere = async(function () {
     return res;
 });
 
+var namaskar = async(function () {
+    var res = [];
+
+    res.push({
+        "name": "https://www.facebook.com/pg/Namaskarbrno/posts/"
+    });
+
+    return res;
+});
+
 module.exports = {
     handles: function (restaurant) {
         return restaurant == "menu-ohpho" || restaurant == "menu-podloubi" || restaurant == "menu-vitalite" || restaurant == "menu-pivnidvere"
-            || restaurant == "menu-friends" || restaurant == "menu-siamthai";
+            || restaurant == "menu-friends" || restaurant == "menu-siamthai" || restaurant == "menu-namaskar";
     },
 
     restaurants: function () {
-        return ["menu-ohpho", "menu-podloubi", "menu-vitalite", "menu-pivnidvere", "menu-friends", "menu-siamthai"]
+        return ["menu-ohpho", "menu-podloubi", "menu-vitalite", "menu-pivnidvere", "menu-friends", "menu-siamthai", "menu-namaskar"]
     },
 
     get: async(function (restaurant) {
@@ -146,6 +156,8 @@ module.exports = {
                 return await(bistroFriends());
             case "menu-siamthai":
                 return await(siamThai());
+            case "menu-namaskar":
+                return await(namaskar());
         }
     }),
 
@@ -163,6 +175,8 @@ module.exports = {
                 return "Bistro Friends";
             case "menu-siamthai":
                 return "Siam Thai";
+            case "menu-namaskar":
+                return "Namaskar";
         }
     }
 };
